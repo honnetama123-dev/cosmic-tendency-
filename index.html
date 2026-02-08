@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic Tendency | Neon Magic</title>
-    <!-- 神秘的なフォントの導入 -->
+    <!-- フォントの読み込み -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --neon-pink: #ff00ff;
             --neon-cyan: #00ffff;
             --magic-purple: #9d00ff;
-            --glass-bg: rgba(13, 5, 20, 0.7);
+            /* 透明度を 0.7 から 0.3 に下げて背景を透かしました */
+            --glass-bg: rgba(13, 5, 20, 0.3); 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-image: url('forest.png'); /* 頂いた画像をここに指定 */
+            background-image: url('forest.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -33,26 +36,26 @@
             overflow-x: hidden;
         }
 
-        /* 背景の奥行き感を出すためのオーバーレイ */
+        /* 背景画像をはっきり見せるため、オーバーレイの影を削除または極薄に設定 */
         body::before {
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+            background: rgba(0, 0, 0, 0.2); /* 背景の鮮やかさを活かすため薄く */
             z-index: -1;
         }
 
         .glass-card {
             background: var(--glass-bg);
-            backdrop-filter: blur(15px) saturate(180%);
-            -webkit-backdrop-filter: blur(15px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            /* ぼかし強度を 15px から 8px に調整して後ろを見えやすく */
+            backdrop-filter: blur(8px) saturate(150%);
+            -webkit-backdrop-filter: blur(8px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 30px;
             padding: 40px;
             width: 100%;
             max-width: 850px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6), 
-                        0 0 30px rgba(157, 0, 255, 0.2);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             display: flex;
             flex-wrap: wrap;
             gap: 30px;
@@ -71,7 +74,6 @@
             min-width: 300px; 
             border-left: 1px solid rgba(255,255,255,0.1); 
             padding-left: 30px;
-            transition: all 0.5s ease;
         }
 
         h1 { 
@@ -85,26 +87,24 @@
             letter-spacing: 2px;
         }
 
-        .creator { font-size: 0.7rem; color: rgba(255,255,255,0.5); margin-bottom: 30px; letter-spacing: 3px; }
+        .creator { font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-bottom: 30px; letter-spacing: 3px; }
 
         .input-group { margin-bottom: 20px; }
-        .input-label { display: block; font-size: 12px; color: var(--neon-cyan); margin-bottom: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+        .input-label { display: block; font-size: 11px; color: var(--neon-cyan); margin-bottom: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
 
         input {
             width: 100%; padding: 12px 15px; border-radius: 12px; 
-            border: 1px solid rgba(255,255,255,0.1);
-            background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(0, 0, 0, 0.4); color: #fff; font-size: 16px;
             transition: all 0.3s;
             outline: none;
         }
 
         input:focus {
             border-color: var(--neon-cyan);
-            background: rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
         }
 
-        /* --- 魔法のクリスタルボタン --- */
         .btn {
             width: 100%;
             padding: 16px;
@@ -123,76 +123,57 @@
             overflow: hidden;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: rotate(45deg);
-            transition: 0.5s;
-        }
-
         .btn:hover {
-            transform: scale(1.03);
+            transform: scale(1.02);
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
-            filter: brightness(1.2);
+            filter: brightness(1.1);
         }
-
-        .btn:hover::before { left: 100%; }
 
         .music-control { margin-top: 25px; display: flex; align-items: center; gap: 15px; }
         .sound-toggle {
-            background: none; border: 2px solid var(--neon-cyan); color: var(--neon-cyan);
+            background: rgba(0, 0, 0, 0.3); border: 2px solid var(--neon-cyan); color: var(--neon-cyan);
             width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
             display: flex; justify-content: center; align-items: center; font-size: 20px;
             transition: all 0.3s;
         }
         .sound-toggle.muted { border-color: #555; color: #555; }
-        .sound-toggle:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 20px var(--neon-cyan); }
+        .sound-toggle:hover { background: var(--neon-cyan); color: #000; box-shadow: 0 0 15px var(--neon-cyan); }
 
-        .sound-notice { font-size: 11px; color: rgba(255,255,255,0.4); }
+        .sound-notice { font-size: 11px; color: rgba(255,255,255,0.5); }
 
         .btn-reset {
             width: 100%; padding: 10px; margin-top: 30px; border-radius: 10px;
             background: transparent; border: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.3); cursor: pointer; font-size: 12px;
+            color: rgba(255,255,255,0.4); cursor: pointer; font-size: 12px;
             transition: all 0.3s;
         }
-        .btn-reset:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,0.05); }
 
-        /* --- 結果表示の演出 --- */
-        #result-display { display: none; animation: result-in 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+        /* --- 結果表示 --- */
+        #result-display { display: none; animation: result-in 0.8s ease-out; }
         @keyframes result-in {
-            from { opacity: 0; transform: translateX(20px); filter: blur(10px); }
-            to { opacity: 1; transform: translateX(0); filter: blur(0); }
+            from { opacity: 0; transform: translateY(10px); filter: blur(5px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
         #res-signs { color: var(--neon-cyan); font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; display: block; }
         .tagline { 
-            font-size: 2rem; color: #fff; margin-bottom: 20px; line-height: 1.2;
-            text-shadow: 0 0 20px var(--neon-pink);
+            font-size: 1.8rem; color: #fff; margin-bottom: 20px; line-height: 1.2;
+            text-shadow: 0 0 15px var(--neon-pink);
         }
         .quote-box { 
-            background: rgba(255,255,255,0.05); border-left: 4px solid var(--neon-cyan);
-            padding: 20px; margin: 25px 0; font-size: 1.6rem; color: #ffeb3b;
-            font-style: italic;
+            background: rgba(0, 0, 0, 0.4); border-left: 4px solid var(--neon-cyan);
+            padding: 20px; margin: 25px 0; font-size: 1.5rem; color: #ffeb3b;
         }
         .details-list { list-style: none; }
-        .details-list li { margin-bottom: 15px; color: rgba(255,255,255,0.8); font-size: 1.1rem; display: flex; align-items: center; }
-        .details-list li::before { content: '✦'; color: var(--neon-cyan); margin-right: 15px; font-size: 0.8rem; }
+        .details-list li { margin-bottom: 15px; color: #fff; font-size: 1.1rem; display: flex; align-items: center; }
+        .details-list li::before { content: '✦'; color: var(--neon-cyan); margin-right: 12px; }
 
         @media (max-width: 700px) {
-            .glass-card { flex-direction: column; padding: 25px; }
+            .glass-card { flex-direction: column; padding: 25px; margin-top: 50px; }
             .right-panel { border-left: none; border-top: 1px solid rgba(255,255,255,0.1); padding-left: 0; padding-top: 30px; }
-            h1 { font-size: 1.8rem; }
         }
 
-        #counter { font-size: 12px; color: var(--neon-pink); margin-bottom: 10px; opacity: 0.7; }
-        .lucky-hit { animation: pulse-neon 2s infinite; }
-        @keyframes pulse-neon {
-            0%, 100% { text-shadow: 0 0 5px var(--neon-pink); }
-            50% { text-shadow: 0 0 15px var(--neon-pink), 0 0 20px var(--neon-pink); }
-        }
+        #counter { font-size: 12px; color: var(--neon-pink); margin-bottom: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -235,10 +216,8 @@
     <audio id="bgm" src="bgm.mp3" loop></audio>
 
     <script>
-        let isMutedManually = false;
-
+        // 144パターンの全データをここに格納（省略なし）
         const fortuneData = [
-            // 提供された全144データをここに配置
             { "sun": "牡羊座", "moon": "牡羊座", "tagline": "即決即行動タイプ", "details": ["思った瞬間に動く", "感情も行動も直球", "後悔は後から"], "quote": "今やろ" },
             { "sun": "牡羊座", "moon": "牡牛座", "tagline": "突っ走りたいのに慎重タイプ", "details": ["行動力と不安が共存", "挑戦したいけど安定も欲しい"], "quote": "やりたいけど怖い" },
             { "sun": "牡羊座", "moon": "双子座", "tagline": "動きながら考えるタイプ", "details": ["行動と分析が同時進行", "好奇心で動く"], "quote": "とりあえずやってみる" },
@@ -408,6 +387,8 @@
             lon = (lon % 360 + 360) % 360;
             return zodiacSigns[Math.floor(lon / 30)];
         }
+
+        let isMutedManually = false;
 
         function uranai() {
             const dVal = document.getElementById('birth-date').value;
