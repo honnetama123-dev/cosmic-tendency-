@@ -24,6 +24,7 @@
             --mercury-alert: #ff4d4d;
         }
 
+        /* box-sizingを徹底して、paddingによる幅のズレを防止 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -58,21 +59,21 @@
         #mercury-banner.show { right: 20px; }
 
         .glass-card {
-            background: transparent; /* 背景を完全透過 */
+            background: transparent;
             backdrop-filter: none;
             border: none;
-            padding: 30px; width: 100%; max-width: 900px;
+            padding: 10px; width: 100%; max-width: 900px;
             display: flex; flex-wrap: wrap; gap: 40px;
             position: relative; animation: card-float 6s ease-in-out infinite;
         }
 
         @keyframes card-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        .left-panel { flex: 0.8; min-width: 250px; }
+        .left-panel { flex: 0.8; min-width: 250px; width: 100%; }
         .right-panel { 
             flex: 1.2; min-width: 300px; 
             border-left: 1px solid rgba(255,255,255,0.3); 
-            padding-left: 30px; 
+            padding-left: 30px; width: 100%;
         }
 
         h1 { 
@@ -84,22 +85,30 @@
             text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
         }
 
-        .input-group { margin-bottom: 20px; }
+        .input-group { margin-bottom: 20px; width: 100%; }
         .input-label { 
             display: block; font-size: 11px; color: var(--accent-color); 
             margin-bottom: 8px; font-weight: bold; text-transform: uppercase; 
             letter-spacing: 2px; text-shadow: 1px 1px 3px #000;
         }
 
+        /* 枠がはみ出さないよう設定 */
         input {
-            width: 100%; padding: 12px 15px; border-radius: 12px; 
+            width: 100%; 
+            max-width: 100%; 
+            display: block;
+            padding: 12px 15px; border-radius: 12px; 
             border: 1px solid rgba(255,255,255,0.5); background: rgba(0, 0, 0, 0.5);
             color: #fff; font-size: 16px; transition: all 0.3s; outline: none;
+            -webkit-appearance: none; /* iOSのデフォルトスタイルをリセット */
         }
         input:focus { border-color: var(--accent-color); box-shadow: 0 0 15px var(--accent-color); }
 
         .btn {
-            width: 100%; padding: 16px; margin-top: 20px; border-radius: 15px;
+            width: 100%; 
+            max-width: 100%;
+            display: block;
+            padding: 16px; margin-top: 20px; border-radius: 15px;
             background: linear-gradient(45deg, var(--magic-purple), var(--neon-pink));
             border: none; color: #fff; font-weight: bold; font-size: 16px; letter-spacing: 3px;
             cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 255, 0.5); transition: 0.3s;
@@ -123,7 +132,10 @@
         .lucky-partner { background: rgba(0, 0, 0, 0.4); border: 1px dashed var(--accent-color); padding: 15px; border-radius: 10px; font-size: 0.8rem; text-shadow: 1px 1px 2px #000; }
         .share-btn { margin-top: 20px; background: rgba(255,255,255,0.1); border: 1px solid var(--accent-color); color: var(--accent-color); padding: 12px; border-radius: 30px; width: 100%; cursor: pointer; font-weight: bold; }
 
-        @media (max-width: 700px) { .glass-card { flex-direction: column; } .right-panel { border-left: none; border-top: 1px solid rgba(255,255,255,0.3); padding-left: 0; padding-top: 30px; } }
+        @media (max-width: 700px) { 
+            .glass-card { flex-direction: column; gap: 20px; } 
+            .right-panel { border-left: none; border-top: 1px solid rgba(255,255,255,0.3); padding-left: 0; padding-top: 30px; } 
+        }
     </style>
 </head>
 <body>
@@ -174,7 +186,6 @@
             "魚座": "第一印象：神秘的で繊細。境界線のない不思議な癒やしのオーラ。"
         };
 
-        /* 144通りのデータは保持したまま進行 */
         const fortuneData = [
             { "sun": "牡羊座", "moon": "牡羊座", "tagline": "即決即行動タイプ", "details": ["思った瞬間に動く", "感情も行動も直球", "後悔は後から"], "quote": "今やろ" },
             { "sun": "牡羊座", "moon": "牡牛座", "tagline": "突っ走りたいのに慎重タイプ", "details": ["行動力と不安が共存", "挑戦したいけど安定も欲しい"], "quote": "やりたいけど怖い" },
@@ -224,13 +235,13 @@
             { "sun": "蟹座", "moon": "山羊座", "tagline": "責任感の塊の守護者", "details": ["愛情を「形（成果）」で示そうとする", "家のルールや伝統を重んじる", "弱音を吐かずに踏ん張る"], "quote": "私が支えるわ" },
             { "sun": "蟹座", "moon": "水瓶座", "tagline": "少しドライな博愛主義者", "details": ["家族愛はあるけど独自の距離感", "「普通」の家庭像に縛られない", "困っている人は放っておけない"], "quote": "適当でいいやん" },
             { "sun": "蟹座", "moon": "魚座", "tagline": "癒やしと共感の天使", "details": ["相手の悲しみを自分のことのように感じる", "尽くしすぎて自分を忘れる", "優しい空気に包まれていたい"], "quote": "わかるよ、大丈夫" },
-            { "sun": "獅子座", "moon": "牡羊座", "tagline": "無敵のヒーロータイプ", "details": ["常に一番、常に主役", "負けるのが大嫌いで直球勝負", "圧倒的な突破力"], "quote": "私が1番や" },
+            { "sun": "獅子座", "moon": "牡羊座", "tagline": "無敵のヒーロータイプ", "details": ["常に一番、常に主役", "負けるのが大開い地で直球勝負", "圧倒的な突破力"], "quote": "私が1番や" },
             { "sun": "獅子座", "moon": "牡牛座", "tagline": "豪華主義な王様・女王様", "details": ["質が良くて目立つものが好き", "自分のスタイルを絶対崩さない", "どっしり構えて動かない"], "quote": "本物がいい" },
             { "sun": "獅子座", "moon": "双子座", "tagline": "華やかなエンターテイナー", "details": ["面白い話で注目を集める天才", "常に誰かに見ていてほしい", "多彩な才能を見せつけたい"], "quote": "凄いやろ？" },
             { "sun": "獅子座", "moon": "蟹座", "tagline": "身内にだけ甘えるリーダー", "details": ["外では堂々、家ではデレデレ", "仲間を誇りに思っている", "実はかなり寂しがり屋"], "quote": "褒めてほしい" },
             { "sun": "獅子座", "moon": "獅子座", "tagline": "圧倒的なカリスマ", "details": ["存在そのものがエンターテインメント", "自分を信じる力が最強", "妥協はプライドが許さない"], "quote": "私がルール" },
             { "sun": "獅子座", "moon": "乙女座", "tagline": "陰で努力する表現者", "details": ["見えないところで猛特訓", "「完璧な自分」を見せたい", "自己評価が意外と厳しめ"], "quote": "完璧やろ？" },
-            { "sun": "獅子座", "moon": "天秤座", "tagline": "愛嬌たっぷりのスター", "details": ["華やかで誰からも好かれたい", "周りからの見え方を計算する", "褒め言葉が最高の栄養源"], "quote": "素敵に見える？" },
+            { "sun": "獅子座", "moon": "天秤座", "tagline": "愛嬌たっぷりのスター", "details": ["華やかで誰からも好かれたい", "周りからの見え方を計算する", "褒め言葉が最高の栄養源"], "quote": "素敵見える？" },
             { "sun": "獅子座", "moon": "蠍座", "tagline": "内に情熱を秘めた支配者", "details": ["黙っていても醸し出される威圧感", "自分の信念を曲げるくらいなら死ぬ", "認めた相手には深い敬意を払う"], "quote": "見てなよ" },
             { "sun": "獅子座", "moon": "射手座", "tagline": "スケールの大きな冒険家", "details": ["夢は大きく、行動は大胆", "常にワクワクする方へ進む", "小さな枠には収まらない"], "quote": "次は世界や" },
             { "sun": "獅子座", "moon": "山羊座", "tagline": "野心的な実力者", "details": ["頂点を目指して着実に歩む", "権威や地位を重んじる", "責任感の強いリーダー"], "quote": "勝つのは私" },
@@ -268,7 +279,7 @@
             { "sun": "蠍座", "moon": "乙女座", "tagline": "精密な分析を行う職人", "details": ["細部まで調べ上げないと気が済まない", "完璧主義で, 自分を追い込む", "批判的な視点が鋭すぎる"], "quote": "根拠は何？" },
             { "sun": "蠍座", "moon": "天秤座", "tagline": "ミステリアスな社交家", "details": ["笑顔で接するが, 心の中には踏み込ませない", "人間関係のパワーバランスを見抜く", "スマートに見せて, 実はかなり激しい"], "quote": "（…見てるよ）" },
             { "sun": "蠍座", "moon": "蠍座", "tagline": "深淵を覗く求道者", "details": ["0か100かの極端な思考", "徹底的に突き詰める精神力", "謎めいた雰囲気が最大の魅力"], "quote": "死ぬまで一緒" },
-            { "sun": "蠍座", "moon": "射手座", "tagline": "真理を追究する冒険家", "details": ["興味があることには深く, 遠くへ", "哲学的で, 精神世界を旅する", "束縛を嫌う, 蠍座の中の自由人"], "quote": "真実はどこ？" },
+            { "sun": "蠍座", "moon": "射手座", "tagline": "真理を追究する冒険家", "details": ["興味があることには深く、遠くへ", "哲学的で, 精神世界を旅する", "束縛を嫌う, 蠍座の中の自由人"], "quote": "真実はどこ？" },
             { "sun": "蠍座", "moon": "山羊座", "tagline": "野心的な仕事人", "details": ["目標達成まで何年でも待つ", "洞察力が鋭く, 敵に回すと一番怖い", "信頼した人との約束は絶対守る"], "quote": "最後に笑うのは私" },
             { "sun": "蠍座", "moon": "水瓶座", "tagline": "クールな革命家", "details": ["独自の美学で常識をぶち壊す", "誰にも左右されない強固な意志", "群めるのを嫌う一匹狼"], "quote": "それ, 変やん？" },
             { "sun": "蠍座", "moon": "魚座", "tagline": "境界線のない癒し手", "details": ["相手の痛みを自分のことのように感じる", "尽くしすぎて一体化しようとする", "霊的な感性が非常に鋭い"], "quote": "繋がってるよ" },
@@ -318,13 +329,12 @@
             { "sun": "魚座", "moon": "蠍座", "tagline": "底知れぬ愛を秘めた人", "details": ["好きになったら魂レベルで一体化したい", "洞察力が鋭く, 言葉以外のメッセージを読む", "執念深さと慈悲深さが同居する"], "quote": "ずっと繋がってる" },
             { "sun": "魚座", "moon": "射手座", "tagline": "どこまでも行く夢追い人", "details": ["現実逃避がそのまま冒険になる", "精神的な自由を求めて彷徨う", "楽天的なようで, ふと逆行を寂しがる"], "quote": "どこか遠くへ行きたい" },
             { "sun": "魚座", "moon": "山羊座", "tagline": "夢を形にする努力家", "details": ["ふわふわしているようで, 最後は着地する", "責任感が強く, 頼まれると断れない", "現実的な厳しさを知っている魚座"], "quote": "やれるだけやるよ" },
-            { "sun": "魚座", "moon": "水瓶座", "tagline": "不思議な魅力の癒し系", "details": ["誰に対しても優しいが, どこか掴めない", "独特な感性で世界を捉えている", "孤独を愛する, 自由な癒やし系"], "quote": "みんな違いっていいやん" },
+            { "sun": "魚座", "moon": "水瓶座", "tagline": "不思議な魅力の癒し系", "details": ["誰に対しても優しいが, どこか掴めない", "独特な感性で世界を捉えている", "孤独を愛する, 自由な癒やし系"], "quote": "みんな違っていいやん" },
             { "sun": "魚座", "moon": "魚座", "tagline": "境界線のない純粋な魂", "details": ["感情の海を漂う, 生粋の感性の人", "霊感や直感が日常レベルで鋭い", "全てを受け入れる圧倒的な受容力"], "quote": "なんとかなるよ" }
         ];
 
         const zodiacSigns = ["牡羊座", "牡牛座", "双子座", "蟹座", "獅子座", "乙女座", "天秤座", "蠍座", "射手座", "山羊座", "水瓶座", "魚座"];
 
-        /* --- タイピング演出ロジック --- */
         async function typeWriter(element, text, speed = 40) {
             element.innerText = "";
             for (let i = 0; i < text.length; i++) {
@@ -333,7 +343,6 @@
             }
         }
 
-        /* --- パーティクル (星屑) ロジック --- */
         const pCanvas = document.getElementById('particle-canvas');
         const pCtx = pCanvas.getContext('2d');
         let particles = [];
@@ -370,7 +379,6 @@
         pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight;
         handleParticles();
 
-        /* --- 水星逆行チェック (2026-2027版) --- */
         function checkMercury() {
             const now = new Date();
             const ranges = [
@@ -441,6 +449,11 @@
 
             const partner = fortuneData[Math.floor(Math.random() * fortuneData.length)];
             document.getElementById('res-lucky').innerText = `${partner.sun}×${partner.moon}の人`;
+            
+            // スマホ版で結果が見えるようにスクロール
+            if (window.innerWidth <= 700) {
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+            }
         }
 
         function shareX() {
