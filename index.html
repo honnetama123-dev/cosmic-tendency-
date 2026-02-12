@@ -24,7 +24,6 @@
             --mercury-alert: #ff4d4d;
         }
 
-        /* box-sizingを徹底して、paddingによる幅のズレを防止 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -92,22 +91,17 @@
             letter-spacing: 2px; text-shadow: 1px 1px 3px #000;
         }
 
-        /* 枠がはみ出さないよう設定 */
         input {
-            width: 100%; 
-            max-width: 100%; 
-            display: block;
+            width: 100%; max-width: 100%; display: block;
             padding: 12px 15px; border-radius: 12px; 
             border: 1px solid rgba(255,255,255,0.5); background: rgba(0, 0, 0, 0.5);
             color: #fff; font-size: 16px; transition: all 0.3s; outline: none;
-            -webkit-appearance: none; /* iOSのデフォルトスタイルをリセット */
+            -webkit-appearance: none;
         }
         input:focus { border-color: var(--accent-color); box-shadow: 0 0 15px var(--accent-color); }
 
         .btn {
-            width: 100%; 
-            max-width: 100%;
-            display: block;
+            width: 100%; max-width: 100%; display: block;
             padding: 16px; margin-top: 20px; border-radius: 15px;
             background: linear-gradient(45deg, var(--magic-purple), var(--neon-pink));
             border: none; color: #fff; font-weight: bold; font-size: 16px; letter-spacing: 3px;
@@ -121,13 +115,15 @@
         }
 
         #result-display { display: none; }
-        #res-signs { color: var(--accent-color); font-size: 1.1rem; font-weight: bold; display: block; margin-bottom: 5px; text-shadow: 0 0 10px #000; }
-        #res-asc { color: var(--neon-pink); font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 15px; text-shadow: 0 0 10px #000; }
-        .tagline { font-size: 1.8rem; color: #fff; margin-bottom: 20px; text-shadow: 0 0 15px var(--neon-pink), 2px 2px 5px #000; min-height: 2.2em; }
-        .quote-box { background: rgba(0, 0, 0, 0.5); border-left: 4px solid var(--accent-color); padding: 15px; margin: 20px 0; font-size: 1.3rem; color: #ffeb3b; text-shadow: 1px 1px 2px #000; min-height: 3em;}
-        .details-list { list-style: none; margin-bottom: 20px; }
+        #res-signs { color: var(--accent-color); font-size: 1.1rem; font-weight: bold; display: block; min-height: 1.2em; text-shadow: 0 0 10px #000; }
+        #res-asc { color: var(--neon-pink); font-size: 0.9rem; font-weight: bold; display: block; min-height: 1.1em; margin-bottom: 15px; text-shadow: 0 0 10px #000; }
+        .tagline { font-size: 1.8rem; color: #fff; margin-bottom: 20px; text-shadow: 0 0 15px var(--neon-pink), 2px 2px 5px #000; min-height: 2.4em; }
+        .quote-box { background: rgba(0, 0, 0, 0.5); border-left: 4px solid var(--accent-color); padding: 15px; margin: 20px 0; font-size: 1.3rem; color: #ffeb3b; text-shadow: 1px 1px 2px #000; min-height: 3.2em;}
+        .details-list { list-style: none; margin-bottom: 20px; min-height: 5em; }
         .details-list li { margin-bottom: 10px; color: #fff; font-size: 1rem; display: flex; align-items: center; text-shadow: 1px 1px 3px #000; }
         .details-list li::before { content: '✦'; color: var(--accent-color); margin-right: 12px; }
+
+        #asc-description { min-height: 3em; font-size: 0.9rem; color: #ccc; margin-bottom: 20px; font-style: italic; text-shadow: 1px 1px 2px #000; }
 
         .lucky-partner { background: rgba(0, 0, 0, 0.4); border: 1px dashed var(--accent-color); padding: 15px; border-radius: 10px; font-size: 0.8rem; text-shadow: 1px 1px 2px #000; }
         .share-btn { margin-top: 20px; background: rgba(255,255,255,0.1); border: 1px solid var(--accent-color); color: var(--accent-color); padding: 12px; border-radius: 30px; width: 100%; cursor: pointer; font-weight: bold; }
@@ -135,6 +131,14 @@
         @media (max-width: 700px) { 
             .glass-card { flex-direction: column; gap: 20px; } 
             .right-panel { border-left: none; border-top: 1px solid rgba(255,255,255,0.3); padding-left: 0; padding-top: 30px; } 
+        }
+
+        /* クレジット表記（真ん中下・2行） */
+        .credits {
+            position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
+            font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 3px;
+            text-align: center; line-height: 1.6; z-index: 100; pointer-events: none;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -151,7 +155,7 @@
             <div class="input-group"><label class="input-label">Birth Time</label><input type="time" id="birth-time"></div>
             <button class="btn" onclick="uranai()">ひそかにのぞく</button>
             <button id="toggle-btn" class="sound-toggle" onclick="toggleMusic()">♪</button>
-            <button class="btn-reset" style="width:100%; background:transparent; border:1px solid #555; color:#aaa; margin-top:20px; cursor:pointer; padding:5px; border-radius:5px; font-size:10px;" onclick="location.reload()">再読み込み</button>
+            <button class="btn-reset" style="width:100%; background:transparent; border:1px solid #444; color:#666; margin-top:20px; cursor:pointer; padding:5px; border-radius:5px; font-size:10px;" onclick="location.reload()">再読み込み</button>
         </div>
         <div class="right-panel">
             <div id="result-display">
@@ -160,17 +164,21 @@
                 <h2 class="tagline" id="res-tagline"></h2>
                 <div class="quote-box" id="res-quote"></div>
                 <ul id="res-details" class="details-list"></ul>
-                <div id="asc-description" style="font-size: 0.9rem; color: #ccc; margin-bottom: 20px; font-style: italic; text-shadow: 1px 1px 2px #000;"></div>
+                <div id="asc-description"></div>
                 <div class="lucky-partner">✦ 今日の相性：<span id="res-lucky"></span></div>
                 <button class="share-btn" onclick="shareX()">空に放つ (Xでシェア)</button>
             </div>
         </div>
     </div>
 
+    <!-- クレジット表記 -->
+    <div class="credits">
+        created by<br>SHIJIMI KEN
+    </div>
+
     <audio id="bgm" src="bgm.mp3" loop></audio>
 
     <script>
-        /* --- アセンダント説明データ --- */
         const ascendantData = {
             "牡羊座": "第一印象：エネルギッシュで正直。何事にも真っ直ぐぶつかる人。",
             "牡牛座": "第一印象：穏やかで安定感がある。上品で落ち着いた雰囲気。",
@@ -187,6 +195,7 @@
         };
 
         const fortuneData = [
+            /* 144通りのデータはここに含まれます（既存のものをそのまま保持） */
             { "sun": "牡羊座", "moon": "牡羊座", "tagline": "即決即行動タイプ", "details": ["思った瞬間に動く", "感情も行動も直球", "後悔は後から"], "quote": "今やろ" },
             { "sun": "牡羊座", "moon": "牡牛座", "tagline": "突っ走りたいのに慎重タイプ", "details": ["行動力と不安が共存", "挑戦したいけど安定も欲しい"], "quote": "やりたいけど怖い" },
             { "sun": "牡羊座", "moon": "双子座", "tagline": "動きながら考えるタイプ", "details": ["行動と分析が同時進行", "好奇心で動く"], "quote": "とりあえずやってみる" },
@@ -209,7 +218,7 @@
             { "sun": "牡牛座", "moon": "蠍座", "tagline": "一点突破のこだわり派", "details": ["執着心と持続力が最強", "一度決めたら10年変わらない", "秘密主義なこだわり"], "quote": "絶対に離さない" },
             { "sun": "牡牛座", "moon": "射手座", "tagline": "のんびり自由人", "details": ["楽観的だけど現実的", "自分のペースで遠くに行きたい", "束縛はストレスの元"], "quote": "なんとかなるでしょ" },
             { "sun": "牡牛座", "moon": "山羊座", "tagline": "着実に登る堅実家", "details": ["結果がすべて", "時間をかけて財を成す", "無茶は絶対にしない"], "quote": "無駄は省こう" },
-            { "sun": "牡牛座", "moon": "水瓶座", "tagline": "マイペースな変人", "details": ["自分の基準が世界の基準", "流行りよりも「自分の定番」", "頑固さは12星座でもトップクラス"], "quote": "私は私やし" },
+            { "sun": "牡牛座", "moon": "水瓶座", "tagline": "マイペースな変人", "details": ["自分の基準が世界の基準", "流行りよりも「自分の定番」", "頑固だけど考え方は合理的"], "quote": "私は私やし" },
             { "sun": "牡牛座", "moon": "魚座", "tagline": "癒やし系のロマンチスト", "details": ["感性が豊かでおっとり", "心地よい空気に流されたい", "実はかなり欲張りさん"], "quote": "幸せ～" },
             { "sun": "双子座", "moon": "牡羊座", "tagline": "光速で動く情報通", "details": ["思いついたら即メッセージ", "考えるより先に口が出る", "飽きるのも最速"], "quote": "おもしろそう, 今行く！" },
             { "sun": "双子座", "moon": "牡牛座", "tagline": "おしゃべりな現実主義者", "details": ["知識を実利に変えるのが上手", "喋るけど自分のテリトリーは守る", "美味しい情報には目がない"], "quote": "それ、得する？" },
@@ -235,7 +244,7 @@
             { "sun": "蟹座", "moon": "山羊座", "tagline": "責任感の塊の守護者", "details": ["愛情を「形（成果）」で示そうとする", "家のルールや伝統を重んじる", "弱音を吐かずに踏ん張る"], "quote": "私が支えるわ" },
             { "sun": "蟹座", "moon": "水瓶座", "tagline": "少しドライな博愛主義者", "details": ["家族愛はあるけど独自の距離感", "「普通」の家庭像に縛られない", "困っている人は放っておけない"], "quote": "適当でいいやん" },
             { "sun": "蟹座", "moon": "魚座", "tagline": "癒やしと共感の天使", "details": ["相手の悲しみを自分のことのように感じる", "尽くしすぎて自分を忘れる", "優しい空気に包まれていたい"], "quote": "わかるよ、大丈夫" },
-            { "sun": "獅子座", "moon": "牡羊座", "tagline": "無敵のヒーロータイプ", "details": ["常に一番、常に主役", "負けるのが大開い地で直球勝負", "圧倒的な突破力"], "quote": "私が1番や" },
+            { "sun": "獅子座", "moon": "牡羊座", "tagline": "無敵のヒーロータイプ", "details": ["常に一番、常に主役", "負けるのが大嫌いで直球勝負", "圧倒的な突破力"], "quote": "私が1番や" },
             { "sun": "獅子座", "moon": "牡牛座", "tagline": "豪華主義な王様・女王様", "details": ["質が良くて目立つものが好き", "自分のスタイルを絶対崩さない", "どっしり構えて動かない"], "quote": "本物がいい" },
             { "sun": "獅子座", "moon": "双子座", "tagline": "華やかなエンターテイナー", "details": ["面白い話で注目を集める天才", "常に誰かに見ていてほしい", "多彩な才能を見せつけたい"], "quote": "凄いやろ？" },
             { "sun": "獅子座", "moon": "蟹座", "tagline": "身内にだけ甘えるリーダー", "details": ["外では堂々、家ではデレデレ", "仲間を誇りに思っている", "実はかなり寂しがり屋"], "quote": "褒めてほしい" },
@@ -258,7 +267,7 @@
             { "sun": "乙女座", "moon": "射手座", "tagline": "理論派の自由人", "details": ["細かいことを気にしつつ遠くを見ている", "知識を増やす旅が大好き", "意外と大雑把なところがある"], "quote": "多分大丈夫（ほんまかな…）" },
             { "sun": "乙女座", "moon": "山羊座", "tagline": "鉄壁のリアリスト", "details": ["計画通りに進めるのが快感", "感情よりも結果と実績", "1円単位まで計算が細かい"], "quote": "無駄は省こう" },
             { "sun": "乙女座", "moon": "水瓶座", "tagline": "ロジカルな異端児", "details": ["独自の分析で常識をぶった斬る", "システム化や効率化が大好き", "感情論を嫌うクールな人"], "quote": "それ、合理的じゃない" },
-            { "sun": "乙女座", "moon": "魚座", "tagline": "繊細すぎる調整者", "details": ["相手を助けたいけど自分も不安", "直感と分析の間で揺れ動く", "頼まれると断りきれない"], "quote": "私がやるよ…" },
+            { "sun": "乙女座", "moon": "魚座", "tagline": "繊繊すぎる調整者", "details": ["相手を助けたいけど自分も不安", "直感と分析の間で揺れ動く", "頼まれると断りきれない"], "quote": "私がやるよ…" },
             { "sun": "天秤座", "moon": "牡羊座", "tagline": "社交的なのに負けず嫌い", "details": ["愛想はいいけど主導権は渡さない", "相手に合わせつつ, 最後は自分の意見を通す", "決断は早いけど後で「大丈夫かな」と気にする"], "quote": "私が決めるね（いいよね？）" },
             { "sun": "天秤座", "moon": "牡牛座", "tagline": "五感にこだわる美意識の塊", "details": ["優雅な生活と美しいものが絶対", "争うくらいなら美味しいものを食べたい", "穏やかに見えて, 譲れないこだわりが強い"], "quote": "綺麗なのがいちばん" },
             { "sun": "天秤座", "moon": "双子座", "tagline": "お喋りな情報通", "details": ["誰とでも会話を弾ませる天才", "常に旬な話題をアップデート", "浅く広く, 人間関係を楽しむ"], "quote": "最近どうしてる？" },
@@ -285,7 +294,7 @@
             { "sun": "蠍座", "moon": "魚座", "tagline": "境界線のない癒し手", "details": ["相手の痛みを自分のことのように感じる", "尽くしすぎて一体化しようとする", "霊的な感性が非常に鋭い"], "quote": "繋がってるよ" },
             { "sun": "射手座", "moon": "牡羊座", "tagline": "爆速で突き進む冒険家", "details": ["考える前にもう走っている", "常に新しいターゲットを探す", "負ける気配が微塵もない"], "quote": "次, 行こう！" },
             { "sun": "射手座", "moon": "牡牛座", "tagline": "五感を満たす旅人", "details": ["快適さと自由を両立したい", "意外と現実的なメリットを狙う", "自分のペースは絶対に崩さない"], "quote": "なんとかなるでしょ" },
-            { "sun": "射手座", "moon": "双子座", "tagline": "フットワーク激軽の情報通", "details": ["常に何かを学び, 動いている", "束縛されると一瞬で消える", "お喋りで知識欲が止まらない"], "quote": "それ, 面白そう！" },
+            { "sun": "射手座", "moon": "双子座", "tagline": "フットワーク激軽の情報通", "details": ["常に何かを学び, 動いている", "束縛されると一瞬で消える", "お喋りで知識欲が止まらない"], "quote": "それ、面白そう！" },
             { "sun": "射手座", "moon": "蟹座", "tagline": "放牧主義の愛妻家・愛夫家", "details": ["自由でいたいけど帰る場所は必要", "仲間と一緒に遠くへ行きたい", "感情のアップダウンが激しい"], "quote": "一緒に冒険しよ" },
             { "sun": "射手座", "moon": "獅子座", "tagline": "スケールの大きい主役", "details": ["夢はデカければデカいほどいい", "自分の可能性を信じて疑わない", "褒められるとどこまでも飛んでいく"], "quote": "世界は私のもの" },
             { "sun": "射手座", "moon": "乙女座", "tagline": "理論派の自由人", "details": ["分析しつつも, 最後は直感で飛ぶ", "細かいことが気になるが無視したい", "知的好奇心が細部まで向かう"], "quote": "理屈はわかった, で？" },
@@ -297,7 +306,7 @@
             { "sun": "射手座", "moon": "魚座", "tagline": "直感だけで生きるロマンチスト", "details": ["夢の世界と現実を飛び越える", "流れに身を任せて遠くまで行く", "慈愛に満ちた自由人"], "quote": "なんとなく大丈夫" },
             { "sun": "山羊座", "moon": "牡羊座", "tagline": "最短距離で頂点を狙う人", "details": ["負けず嫌いで野心の塊", "決めたら即座に, かつ確実に動く", "弱音を吐かずに突き進む"], "quote": "勝たなあかん" },
             { "sun": "山羊座", "moon": "牡牛座", "tagline": "鉄壁の安定志向", "details": ["お金と実績は裏切らないと信じている", "コツコツ貯めて, 着実に築く", "変化より継続, 形になるものが好き"], "quote": "無駄は省こう" },
-            { "sun": "山羊座", "moon": "双子座", "tagline": "スマートな戦略家", "details": ["情報を集めて効率的に結果を出す", "表向きは軽やかだが, 計算は緻密", "役に立たない話には興味がない"], "quote": "で, メリットは何？" },
+            { "sun": "山羊座", "moon": "双子座", "tagline": "スマートな戦略家", "details": ["情報を集めて効率的に結果を出す", "表向きは軽やかだが, 計算は緻密", "役に立たない話には興味がない"], "quote": "で、メリットは何？" },
             { "sun": "山羊座", "moon": "蟹座", "tagline": "責任感の強すぎる保護者", "details": ["家族や身内を養うために必死で働く", "厳しいけれど愛がある", "伝統やルールを大切に守る"], "quote": "私が支えなあかん" },
             { "sun": "山羊座", "moon": "獅子座", "tagline": "威厳あるリーダー", "details": ["誰からも認められる地位が欲しい", "プライドを持って完璧に仕事をこなす", "堂々とした振る舞いで人を動かす"], "quote": "やるなら完璧に" },
             { "sun": "山羊座", "moon": "乙女座", "tagline": "緻密な実務のプロ", "details": ["ミスは許されない, 自分に超厳しい", "計画通りに進まないと気が済まない", "1円, 1分を大切にするリアリスト"], "quote": "きっちりやろう" },
@@ -335,11 +344,11 @@
 
         const zodiacSigns = ["牡羊座", "牡牛座", "双子座", "蟹座", "獅子座", "乙女座", "天秤座", "蠍座", "射手座", "山羊座", "水瓶座", "魚座"];
 
-        async function typeWriter(element, text, speed = 40) {
-            element.innerText = "";
-            for (let i = 0; i < text.length; i++) {
-                element.innerText += text.charAt(i);
-                await new Promise(r => setTimeout(r, speed));
+        async function typeWriter(element, text, speed = 45) {
+            element.textContent = ""; 
+            for (const char of text) {
+                element.textContent += char;
+                await new Promise(resolve => setTimeout(resolve, speed));
             }
         }
 
@@ -370,10 +379,10 @@
             requestAnimationFrame(handleParticles);
         }
         window.addEventListener('mousemove', (e) => {
-            for(let i=0; i<3; i++) particles.push(new Particle(e.clientX, e.clientY));
+            for(let i=0; i<2; i++) particles.push(new Particle(e.clientX, e.clientY));
         });
         window.addEventListener('touchmove', (e) => {
-            for(let i=0; i<3; i++) particles.push(new Particle(e.touches[0].clientX, e.touches[0].clientY));
+            for(let i=0; i<2; i++) particles.push(new Particle(e.touches[0].clientX, e.touches[0].clientY));
         });
         window.addEventListener('resize', () => { pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight; });
         pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight;
@@ -392,14 +401,6 @@
         }
         checkMercury();
 
-        function getRisingSign(date) {
-            const hour = date.getHours();
-            const min = date.getMinutes();
-            const sunIdx = zodiacSigns.indexOf(getSunSign(date));
-            const offset = Math.floor(((hour + min/60) - 6 + 24) % 24 / 2);
-            return zodiacSigns[(sunIdx + offset) % 12];
-        }
-
         function getSunSign(date) {
             const m = date.getMonth() + 1, d = date.getDate();
             const sunThresholds = [20, 19, 20, 20, 21, 21, 23, 23, 23, 23, 22, 22];
@@ -413,6 +414,14 @@
             let lon = 218.316 + 481267.881 * t + 6.289 * Math.sin((134.963 + 477198.867 * t) * Math.PI / 180);
             lon = (lon % 360 + 360) % 360;
             return zodiacSigns[Math.floor(lon / 30)];
+        }
+
+        function getRisingSign(date) {
+            const hour = date.getHours();
+            const min = date.getMinutes();
+            const sunIdx = zodiacSigns.indexOf(getSunSign(date));
+            const offset = Math.floor(((hour + min/60) - 6 + 24) % 24 / 2);
+            return zodiacSigns[(sunIdx + offset) % 12];
         }
 
         async function uranai() {
@@ -431,8 +440,13 @@
             const resultDiv = document.getElementById('result-display');
             resultDiv.style.display = 'block';
 
-            document.getElementById('res-signs').innerText = `太陽：${sun} × 月：${moon}`;
-            document.getElementById('res-asc').innerText = `Rising (Ascendant)：${asc}`;
+            if (window.innerWidth <= 700) {
+                resultDiv.scrollIntoView({ behavior: 'smooth' });
+                await new Promise(r => setTimeout(r, 600));
+            }
+
+            document.getElementById('res-signs').textContent = `太陽：${sun} × 月：${moon}`;
+            document.getElementById('res-asc').textContent = `Rising (Ascendant)：${asc}`;
             
             await typeWriter(document.getElementById('res-tagline'), data.tagline);
             await typeWriter(document.getElementById('res-quote'), `「${data.quote}」`);
@@ -442,22 +456,17 @@
             for(let text of data.details) {
                 const li = document.createElement('li');
                 list.appendChild(li);
-                await typeWriter(li, text, 20);
+                await typeWriter(li, text, 30);
             }
 
-            await typeWriter(document.getElementById('asc-description'), ascendantData[asc] || "", 20);
+            await typeWriter(document.getElementById('asc-description'), ascendantData[asc] || "", 30);
 
             const partner = fortuneData[Math.floor(Math.random() * fortuneData.length)];
-            document.getElementById('res-lucky').innerText = `${partner.sun}×${partner.moon}の人`;
-            
-            // スマホ版で結果が見えるようにスクロール
-            if (window.innerWidth <= 700) {
-                resultDiv.scrollIntoView({ behavior: 'smooth' });
-            }
+            document.getElementById('res-lucky').textContent = `${partner.sun}×${partner.moon}の人`;
         }
 
         function shareX() {
-            const text = encodeURIComponent(`✦ Cosmic Tendency ✦\n私の魂は【${document.getElementById('res-signs').innerText}】\n上昇宮：${document.getElementById('res-asc').innerText}\n${document.getElementById('res-tagline').innerText}\n#CosmicTendency`);
+            const text = encodeURIComponent(`✦ Cosmic Tendency ✦\n私の魂は【${document.getElementById('res-signs').textContent}】\n上昇宮：${document.getElementById('res-asc').textContent}\n${document.getElementById('res-tagline').textContent}\n#CosmicTendency`);
             window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
         }
 
