@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic Tendency | Neon Magic Elite</title>
     
+    <!-- PWA / モバイルアプリ設定 -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
@@ -41,7 +47,7 @@
 
         #mercury-banner {
             position: fixed; top: 20px; right: -350px;
-            background: rgba(255, 0, 0, 0.2);
+            background: rgba(255, 0, 0, 0.4);
             border: 1px solid var(--mercury-alert);
             color: var(--mercury-alert);
             padding: 10px 20px; border-radius: 5px;
@@ -52,33 +58,42 @@
         #mercury-banner.show { right: 20px; }
 
         .glass-card {
-            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px;
+            background: transparent; /* 背景を完全透過 */
+            backdrop-filter: none;
+            border: none;
             padding: 30px; width: 100%; max-width: 900px;
-            display: flex; flex-wrap: wrap; gap: 30px;
+            display: flex; flex-wrap: wrap; gap: 40px;
             position: relative; animation: card-float 6s ease-in-out infinite;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
 
         @keyframes card-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         .left-panel { flex: 0.8; min-width: 250px; }
-        .right-panel { flex: 1.2; min-width: 300px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 30px; }
+        .right-panel { 
+            flex: 1.2; min-width: 300px; 
+            border-left: 1px solid rgba(255,255,255,0.3); 
+            padding-left: 30px; 
+        }
 
         h1 { 
-            font-family: 'Cinzel', serif; font-size: 2.2rem; 
+            font-family: 'Cinzel', serif; font-size: 2.5rem; 
             background: linear-gradient(to bottom, #fff, var(--accent-color));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px var(--accent-color));
+            filter: drop-shadow(0 0 15px var(--accent-color));
             margin-bottom: 30px; letter-spacing: 2px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
         }
 
         .input-group { margin-bottom: 20px; }
-        .input-label { display: block; font-size: 11px; color: var(--accent-color); margin-bottom: 8px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+        .input-label { 
+            display: block; font-size: 11px; color: var(--accent-color); 
+            margin-bottom: 8px; font-weight: bold; text-transform: uppercase; 
+            letter-spacing: 2px; text-shadow: 1px 1px 3px #000;
+        }
 
         input {
             width: 100%; padding: 12px 15px; border-radius: 12px; 
-            border: 1px solid rgba(255,255,255,0.4); background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255,255,255,0.5); background: rgba(0, 0, 0, 0.5);
             color: #fff; font-size: 16px; transition: all 0.3s; outline: none;
         }
         input:focus { border-color: var(--accent-color); box-shadow: 0 0 15px var(--accent-color); }
@@ -97,15 +112,15 @@
         }
 
         #result-display { display: none; }
-        #res-signs { color: var(--accent-color); font-size: 1.1rem; font-weight: bold; display: block; margin-bottom: 5px; }
-        #res-asc { color: var(--neon-pink); font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 15px; }
-        .tagline { font-size: 1.8rem; color: #fff; margin-bottom: 20px; text-shadow: 0 0 15px var(--neon-pink); min-height: 2.2em; }
-        .quote-box { background: rgba(0, 0, 0, 0.6); border-left: 4px solid var(--accent-color); padding: 15px; margin: 20px 0; font-size: 1.3rem; color: #ffeb3b; min-height: 3em;}
+        #res-signs { color: var(--accent-color); font-size: 1.1rem; font-weight: bold; display: block; margin-bottom: 5px; text-shadow: 0 0 10px #000; }
+        #res-asc { color: var(--neon-pink); font-size: 0.9rem; font-weight: bold; display: block; margin-bottom: 15px; text-shadow: 0 0 10px #000; }
+        .tagline { font-size: 1.8rem; color: #fff; margin-bottom: 20px; text-shadow: 0 0 15px var(--neon-pink), 2px 2px 5px #000; min-height: 2.2em; }
+        .quote-box { background: rgba(0, 0, 0, 0.5); border-left: 4px solid var(--accent-color); padding: 15px; margin: 20px 0; font-size: 1.3rem; color: #ffeb3b; text-shadow: 1px 1px 2px #000; min-height: 3em;}
         .details-list { list-style: none; margin-bottom: 20px; }
-        .details-list li { margin-bottom: 10px; color: #fff; font-size: 1rem; display: flex; align-items: center; }
+        .details-list li { margin-bottom: 10px; color: #fff; font-size: 1rem; display: flex; align-items: center; text-shadow: 1px 1px 3px #000; }
         .details-list li::before { content: '✦'; color: var(--accent-color); margin-right: 12px; }
 
-        .lucky-partner { background: rgba(255, 255, 255, 0.1); border: 1px dashed var(--accent-color); padding: 15px; border-radius: 10px; font-size: 0.8rem; }
+        .lucky-partner { background: rgba(0, 0, 0, 0.4); border: 1px dashed var(--accent-color); padding: 15px; border-radius: 10px; font-size: 0.8rem; text-shadow: 1px 1px 2px #000; }
         .share-btn { margin-top: 20px; background: rgba(255,255,255,0.1); border: 1px solid var(--accent-color); color: var(--accent-color); padding: 12px; border-radius: 30px; width: 100%; cursor: pointer; font-weight: bold; }
 
         @media (max-width: 700px) { .glass-card { flex-direction: column; } .right-panel { border-left: none; border-top: 1px solid rgba(255,255,255,0.3); padding-left: 0; padding-top: 30px; } }
@@ -133,7 +148,7 @@
                 <h2 class="tagline" id="res-tagline"></h2>
                 <div class="quote-box" id="res-quote"></div>
                 <ul id="res-details" class="details-list"></ul>
-                <div id="asc-description" style="font-size: 0.9rem; color: #ccc; margin-bottom: 20px; font-style: italic;"></div>
+                <div id="asc-description" style="font-size: 0.9rem; color: #ccc; margin-bottom: 20px; font-style: italic; text-shadow: 1px 1px 2px #000;"></div>
                 <div class="lucky-partner">✦ 今日の相性：<span id="res-lucky"></span></div>
                 <button class="share-btn" onclick="shareX()">空に放つ (Xでシェア)</button>
             </div>
@@ -143,7 +158,7 @@
     <audio id="bgm" src="bgm.mp3" loop></audio>
 
     <script>
-        /* --- アセンダント説明データ（ここを編集して詳細化できます） --- */
+        /* --- アセンダント説明データ --- */
         const ascendantData = {
             "牡羊座": "第一印象：エネルギッシュで正直。何事にも真っ直ぐぶつかる人。",
             "牡牛座": "第一印象：穏やかで安定感がある。上品で落ち着いた雰囲気。",
@@ -159,8 +174,8 @@
             "魚座": "第一印象：神秘的で繊細。境界線のない不思議な癒やしのオーラ。"
         };
 
+        /* 144通りのデータは保持したまま進行 */
         const fortuneData = [
-            /* 144通りのデータは以前と同様（ここでは省略しませんが、実際のコードには含めてください） */
             { "sun": "牡羊座", "moon": "牡羊座", "tagline": "即決即行動タイプ", "details": ["思った瞬間に動く", "感情も行動も直球", "後悔は後から"], "quote": "今やろ" },
             { "sun": "牡羊座", "moon": "牡牛座", "tagline": "突っ走りたいのに慎重タイプ", "details": ["行動力と不安が共存", "挑戦したいけど安定も欲しい"], "quote": "やりたいけど怖い" },
             { "sun": "牡羊座", "moon": "双子座", "tagline": "動きながら考えるタイプ", "details": ["行動と分析が同時進行", "好奇心で動く"], "quote": "とりあえずやってみる" },
@@ -185,7 +200,7 @@
             { "sun": "牡牛座", "moon": "山羊座", "tagline": "着実に登る堅実家", "details": ["結果がすべて", "時間をかけて財を成す", "無茶は絶対にしない"], "quote": "無駄は省こう" },
             { "sun": "牡牛座", "moon": "水瓶座", "tagline": "マイペースな変人", "details": ["自分の基準が世界の基準", "流行りよりも「自分の定番」", "頑固さは12星座でもトップクラス"], "quote": "私は私やし" },
             { "sun": "牡牛座", "moon": "魚座", "tagline": "癒やし系のロマンチスト", "details": ["感性が豊かでおっとり", "心地よい空気に流されたい", "実はかなり欲張りさん"], "quote": "幸せ～" },
-            { "sun": "双子座", "moon": "牡羊座", "tagline": "光速で動く情報通", "details": ["思いついたら即メッセージ", "考えるより先に口が出る", "飽きるのも最速"], "quote": "おもしろそう、今行く！" },
+            { "sun": "双子座", "moon": "牡羊座", "tagline": "光速で動く情報通", "details": ["思いついたら即メッセージ", "考えるより先に口が出る", "飽きるのも最速"], "quote": "おもしろそう, 今行く！" },
             { "sun": "双子座", "moon": "牡牛座", "tagline": "おしゃべりな現実主義者", "details": ["知識を実利に変えるのが上手", "喋るけど自分のテリトリーは守る", "美味しい情報には目がない"], "quote": "それ、得する？" },
             { "sun": "双子座", "moon": "双子座", "tagline": "歩く検索エンジン", "details": ["常に何かを調べている", "同時に3つくらいのことをこなす", "深掘りより広さ重視"], "quote": "あ、それ知ってる！" },
             { "sun": "双子座", "moon": "蟹座", "tagline": "愛嬌のある聞き上手", "details": ["相手の感情を読み取って喋る", "仲間内のニュースが大好き", "実はかなり心配性"], "quote": "ここだけの話やけど" },
@@ -227,84 +242,84 @@
             { "sun": "乙女座", "moon": "蟹座", "tagline": "献身的なお世話係", "details": ["相手の体調や変化にすぐ気づく", "役に立つことで愛情を実感", "心配しすぎて口うるさくなる"], "quote": "大丈夫？無理してない？" },
             { "sun": "乙女座", "moon": "獅子座", "tagline": "プライドの高い実力派", "details": ["完璧にこなして称賛されたい", "批判されると内心めちゃくちゃ凹む", "自分のやり方に強いこだわり"], "quote": "完璧やろ？" },
             { "sun": "乙女座", "moon": "乙女座", "tagline": "ミスのない管理官", "details": ["自分にも他人にも厳しい", "秩序が乱れるとストレス", "誰よりも早く間違いに気づく"], "quote": "そこ、ズレてる" },
-            { "sun": "乙女座", "moon": "天秤座", "tagline": "気遣い上手な調整役", "details": ["場の空気を読みつつ、裏で整える", "清潔感とマナーを重視", "嫌われないように批判を飲み込む"], "quote": "綺麗にしておこう" },
+            { "sun": "乙女座", "moon": "天秤座", "tagline": "気遣い上手な調整役", "details": ["場の空気を読みつつ, 裏で整える", "清潔感とマナーを重視", "嫌われないように批判を飲み込む"], "quote": "綺麗にしておこう" },
             { "sun": "乙女座", "moon": "蠍座", "tagline": "不屈の探求者", "details": ["徹底的に調べて本質を見抜く", "信頼した人のためなら泥をかぶる", "一度疑うと止まらない"], "quote": "根拠は何？" },
             { "sun": "乙女座", "moon": "射手座", "tagline": "理論派の自由人", "details": ["細かいことを気にしつつ遠くを見ている", "知識を増やす旅が大好き", "意外と大雑把なところがある"], "quote": "多分大丈夫（ほんまかな…）" },
             { "sun": "乙女座", "moon": "山羊座", "tagline": "鉄壁のリアリスト", "details": ["計画通りに進めるのが快感", "感情よりも結果と実績", "1円単位まで計算が細かい"], "quote": "無駄は省こう" },
             { "sun": "乙女座", "moon": "水瓶座", "tagline": "ロジカルな異端児", "details": ["独自の分析で常識をぶった斬る", "システム化や効率化が大好き", "感情論を嫌うクールな人"], "quote": "それ、合理的じゃない" },
             { "sun": "乙女座", "moon": "魚座", "tagline": "繊細すぎる調整者", "details": ["相手を助けたいけど自分も不安", "直感と分析の間で揺れ動く", "頼まれると断りきれない"], "quote": "私がやるよ…" },
-            { "sun": "天秤座", "moon": "牡羊座", "tagline": "社交的なのに負けず嫌い", "details": ["愛想はいいけど主導権は渡さない", "相手に合わせつつ、最後は自分の意見を通す", "決断は早いけど後で「大丈夫かな」と気にする"], "quote": "私が決めるね（いいよね？）" },
-            { "sun": "天秤座", "moon": "牡牛座", "tagline": "五感にこだわる美意識の塊", "details": ["優雅な生活と美しいものが絶対", "争うくらいなら美味しいものを食べたい", "穏やかに見えて、譲れないこだわりが強い"], "quote": "綺麗なのがいちばん" },
-            { "sun": "天秤座", "moon": "双子座", "tagline": "お喋りな情報通", "details": ["誰とでも会話を弾ませる天才", "常に旬な話題をアップデート", "浅く広く、人間関係を楽しむ"], "quote": "最近どうしてる？" },
-            { "sun": "天秤座", "moon": "蟹座", "tagline": "愛され上手な気配り屋", "details": ["周囲の感情の変化に敏感", "誰からも嫌われたくないし、みんなで仲良くしたい", "身内への愛と外への愛想の使い分け"], "quote": "みんな仲良くね" },
+            { "sun": "天秤座", "moon": "牡羊座", "tagline": "社交的なのに負けず嫌い", "details": ["愛想はいいけど主導権は渡さない", "相手に合わせつつ, 最後は自分の意見を通す", "決断は早いけど後で「大丈夫かな」と気にする"], "quote": "私が決めるね（いいよね？）" },
+            { "sun": "天秤座", "moon": "牡牛座", "tagline": "五感にこだわる美意識の塊", "details": ["優雅な生活と美しいものが絶対", "争うくらいなら美味しいものを食べたい", "穏やかに見えて, 譲れないこだわりが強い"], "quote": "綺麗なのがいちばん" },
+            { "sun": "天秤座", "moon": "双子座", "tagline": "お喋りな情報通", "details": ["誰とでも会話を弾ませる天才", "常に旬な話題をアップデート", "浅く広く, 人間関係を楽しむ"], "quote": "最近どうしてる？" },
+            { "sun": "天秤座", "moon": "蟹座", "tagline": "愛され上手な気配り屋", "details": ["周囲の感情の変化に敏感", "誰からも嫌われたくないし, みんなで仲良くしたい", "身内への愛と外への愛想の使い分け"], "quote": "みんな仲良くね" },
             { "sun": "天秤座", "moon": "獅子座", "tagline": "華やかな社交界のスター", "details": ["褒められることで輝きを増す", "自分がどう見えているかを常に計算", "センスの良さには絶対の自信"], "quote": "素敵でしょ？" },
-            { "sun": "天秤座", "moon": "乙女座", "tagline": "スマートな完璧主義者", "details": ["表向きはソフトだが、内面は超分析的", "マナーや身だしなみに厳しい", "場の空気を整えるのが上手"], "quote": "失礼がないように" },
-            { "sun": "天秤座", "moon": "天秤座", "tagline": "調和を愛する平和の使者", "details": ["12星座イチ、空気を読むのが得意", "どちらの味方もしたくない（板挟みになりがち）", "優憂不断は「公平」でありたい証拠"], "quote": "どっちも良いよね" },
-            { "sun": "天秤座", "moon": "蠍座", "tagline": "秘密を抱えた社交家", "details": ["誰とでも仲良くするが、本心は一握りの人にだけ", "観察眼が鋭く、相手の本音を見抜く", "執念深さを笑顔で隠す"], "quote": "（…見てるよ）" },
-            { "sun": "天秤座", "moon": "射手座", "tagline": "自由を愛する楽天家", "details": ["社交的だけど束縛されるのは大嫌い", "フットワークが軽く、新しい出会いを求める", "重たい空気を感じると逃げたくなる"], "quote": "もっと楽しくいこう！" },
-            { "sun": "天秤座", "moon": "山羊座", "tagline": "真面目な野心家", "details": ["人間関係をキャリアや実績に繋げる", "礼儀正しく、目上の人に好かれる", "意外と現実的で計算高い"], "quote": "きちんとしなきゃ" },
-            { "sun": "天秤座", "moon": "水瓶座", "tagline": "クールで友好的な異端児", "details": ["誰に対しても平等、かつ一定の距離感", "ユニークなセンスで注目を浴びる", "依存関係を最も嫌う"], "quote": "自由が一番やん" },
-            { "sun": "天秤座", "moon": "魚座", "tagline": "流されやすい癒し系", "details": ["相手の希望を叶えることが自分の喜び", "境界線が曖昧で、つい優しくしすぎる", "ドラマチックなロマンスに弱い"], "quote": "どっちでもいいよ" },
+            { "sun": "天秤座", "moon": "乙女座", "tagline": "スマートな完璧主義者", "details": ["表向きはソフトだが, 内面は超分析的", "マナーや身だしなみに厳しい", "場の空気を整えるのが上手"], "quote": "失礼がないように" },
+            { "sun": "天秤座", "moon": "天秤座", "tagline": "調和を愛する平和の使者", "details": ["12星座イチ, 空気を読むのが得意", "どちらの味方もしたくない（板挟みになりがち）", "優憂不断は「公平」でありたい証拠"], "quote": "どっちも良いよね" },
+            { "sun": "天秤座", "moon": "蠍座", "tagline": "秘密を抱えた社交家", "details": ["誰とでも仲良くするが, 本心は一握りの人にだけ", "観察眼が鋭く, 相手の本音を見抜く", "執念深さを笑顔で隠す"], "quote": "（…見てるよ）" },
+            { "sun": "天秤座", "moon": "射手座", "tagline": "自由を愛する楽天家", "details": ["社交的だけど束縛されるのは大嫌い", "フットワークが軽く, 新しい出会いを求める", "重たい空気を感じると逃げたくなる"], "quote": "もっと楽しくいこう！" },
+            { "sun": "天秤座", "moon": "山羊座", "tagline": "真面目な野心家", "details": ["人間関係をキャリアや実績に繋げる", "礼儀正しく, 目上の人に好かれる", "意外と現実的で計算高い"], "quote": "きちんとしなきゃ" },
+            { "sun": "天秤座", "moon": "水瓶座", "tagline": "クールで友好的な異端児", "details": ["誰に対しても平等, かつ一定の距離感", "ユニークなセンスで注目を浴びる", "依存関係を最も嫌う"], "quote": "自由が一番やん" },
+            { "sun": "天秤座", "moon": "魚座", "tagline": "流されやすい癒し系", "details": ["相手の希望を叶えることが自分の喜び", "境界線が曖昧で, つい優しくしすぎる", "ドラマチックなロマンスに弱い"], "quote": "どっちでもいいよ" },
             { "sun": "蠍座", "moon": "牡羊座", "tagline": "不屈の精神を持つ戦士", "details": ["狙った獲物は逃さない", "怒らせると12星座イチ執念深い", "圧倒的な集中力と瞬発力"], "quote": "覚悟しときや" },
-            { "sun": "蠍座", "moon": "牡牛座", "tagline": "究極のこだわり派", "details": ["独占欲と所有欲が最強", "好きなものは一生愛し抜く", "変化を嫌い、自分の世界を突き詰める"], "quote": "絶対に離さない" },
+            { "sun": "蠍座", "moon": "牡牛座", "tagline": "究極のこだわり派", "details": ["独占欲と所有欲が最強", "好きなものは一生愛し抜く", "変化を嫌い, 自分の世界を突き詰める"], "quote": "絶対に離さない" },
             { "sun": "蠍座", "moon": "双子座", "tagline": "裏の裏まで読み切る探偵", "details": ["相手の本音を暴くのが得意", "秘密主義なのに情報はしっかり収集", "言葉の端々に毒とユーモアが混じる"], "quote": "全部バレてるで" },
             { "sun": "蠍座", "moon": "蟹座", "tagline": "情に厚すぎる守護者", "details": ["愛する人を守るためなら何でもする", "絆を何よりも重んじる", "裏切りは地獄の果てまで許さない"], "quote": "一生一緒やで" },
             { "sun": "蠍座", "moon": "獅子座", "tagline": "カリスマ的な支配者", "details": ["黙っていても醸し出される威圧感", "自分の信念を曲げるくらいなら死ぬ", "認めた相手には深い敬意を払う"], "quote": "私を信じろ" },
-            { "sun": "蠍座", "moon": "乙女座", "tagline": "精密な分析を行う職人", "details": ["細部まで調べ上げないと気が済まない", "完璧主義で、自分を追い込む", "批判的な視点が鋭すぎる"], "quote": "根拠は何？" },
-            { "sun": "蠍座", "moon": "天秤座", "tagline": "ミステリアスな社交家", "details": ["笑顔で接するが、心の中には踏み込ませない", "人間関係のパワーバランスを見抜く", "スマートに見せて、実はかなり激しい"], "quote": "（…見てるよ）" },
+            { "sun": "蠍座", "moon": "乙女座", "tagline": "精密な分析を行う職人", "details": ["細部まで調べ上げないと気が済まない", "完璧主義で, 自分を追い込む", "批判的な視点が鋭すぎる"], "quote": "根拠は何？" },
+            { "sun": "蠍座", "moon": "天秤座", "tagline": "ミステリアスな社交家", "details": ["笑顔で接するが, 心の中には踏み込ませない", "人間関係のパワーバランスを見抜く", "スマートに見せて, 実はかなり激しい"], "quote": "（…見てるよ）" },
             { "sun": "蠍座", "moon": "蠍座", "tagline": "深淵を覗く求道者", "details": ["0か100かの極端な思考", "徹底的に突き詰める精神力", "謎めいた雰囲気が最大の魅力"], "quote": "死ぬまで一緒" },
-            { "sun": "蠍座", "moon": "射手座", "tagline": "真理を追究する冒険家", "details": ["興味があることには深く、遠くへ", "哲学的で、精神世界を旅する", "束縛を嫌う、蠍座の中の自由人"], "quote": "真実はどこ？" },
-            { "sun": "蠍座", "moon": "山羊座", "tagline": "野心的な仕事人", "details": ["目標達成まで何年でも待つ", "洞察力が鋭く、敵に回すと一番怖い", "信頼した人との約束は絶対守る"], "quote": "最後に笑うのは私" },
-            { "sun": "蠍座", "moon": "水瓶座", "tagline": "クールな革命家", "details": ["独自の美学で常識をぶち壊す", "誰にも左右されない強固な意志", "群めるのを嫌う一匹狼"], "quote": "それ、変やん？" },
+            { "sun": "蠍座", "moon": "射手座", "tagline": "真理を追究する冒険家", "details": ["興味があることには深く, 遠くへ", "哲学的で, 精神世界を旅する", "束縛を嫌う, 蠍座の中の自由人"], "quote": "真実はどこ？" },
+            { "sun": "蠍座", "moon": "山羊座", "tagline": "野心的な仕事人", "details": ["目標達成まで何年でも待つ", "洞察力が鋭く, 敵に回すと一番怖い", "信頼した人との約束は絶対守る"], "quote": "最後に笑うのは私" },
+            { "sun": "蠍座", "moon": "水瓶座", "tagline": "クールな革命家", "details": ["独自の美学で常識をぶち壊す", "誰にも左右されない強固な意志", "群めるのを嫌う一匹狼"], "quote": "それ, 変やん？" },
             { "sun": "蠍座", "moon": "魚座", "tagline": "境界線のない癒し手", "details": ["相手の痛みを自分のことのように感じる", "尽くしすぎて一体化しようとする", "霊的な感性が非常に鋭い"], "quote": "繋がってるよ" },
-            { "sun": "射手座", "moon": "牡羊座", "tagline": "爆速で突き進む冒険家", "details": ["考える前にもう走っている", "常に新しいターゲットを探す", "負ける気配が微塵もない"], "quote": "次、行こう！" },
+            { "sun": "射手座", "moon": "牡羊座", "tagline": "爆速で突き進む冒険家", "details": ["考える前にもう走っている", "常に新しいターゲットを探す", "負ける気配が微塵もない"], "quote": "次, 行こう！" },
             { "sun": "射手座", "moon": "牡牛座", "tagline": "五感を満たす旅人", "details": ["快適さと自由を両立したい", "意外と現実的なメリットを狙う", "自分のペースは絶対に崩さない"], "quote": "なんとかなるでしょ" },
-            { "sun": "射手座", "moon": "双子座", "tagline": "フットワーク激軽の情報通", "details": ["常に何かを学び、動いている", "束縛されると一瞬で消える", "お喋りで知識欲が止まらない"], "quote": "それ、面白そう！" },
+            { "sun": "射手座", "moon": "双子座", "tagline": "フットワーク激軽の情報通", "details": ["常に何かを学び, 動いている", "束縛されると一瞬で消える", "お喋りで知識欲が止まらない"], "quote": "それ, 面白そう！" },
             { "sun": "射手座", "moon": "蟹座", "tagline": "放牧主義の愛妻家・愛夫家", "details": ["自由でいたいけど帰る場所は必要", "仲間と一緒に遠くへ行きたい", "感情のアップダウンが激しい"], "quote": "一緒に冒険しよ" },
             { "sun": "射手座", "moon": "獅子座", "tagline": "スケールの大きい主役", "details": ["夢はデカければデカいほどいい", "自分の可能性を信じて疑わない", "褒められるとどこまでも飛んでいく"], "quote": "世界は私のもの" },
-            { "sun": "射手座", "moon": "乙女座", "tagline": "理論派の自由人", "details": ["分析しつつも、最後は直感で飛ぶ", "細かいことが気になるが無視したい", "知的好奇心が細部まで向かう"], "quote": "理屈はわかった、で？" },
+            { "sun": "射手座", "moon": "乙女座", "tagline": "理論派の自由人", "details": ["分析しつつも, 最後は直感で飛ぶ", "細かいことが気になるが無視したい", "知的好奇心が細部まで向かう"], "quote": "理屈はわかった, で？" },
             { "sun": "射手座", "moon": "天秤座", "tagline": "スマートな楽天家", "details": ["社交的で誰とでも旅ができる", "重苦しい関係は笑顔でスルー", "センス良く自由を謳歌する"], "quote": "楽しくやろうよ" },
             { "sun": "射手座", "moon": "蠍座", "tagline": "真理を追い求めるハンター", "details": ["興味を持ったらどん底まで深掘り", "執念深さと大胆さが共存", "嘘を見抜く力が異様に高い"], "quote": "本質はどこ？" },
-            { "sun": "射手座", "moon": "射手座", "tagline": "止まったら死ぬマグロタイプ", "details": ["常にアップデートし続ける人", "哲学、旅、学びがガソリン", "過去を振り返る時間はゼロ"], "quote": "自由が最高！" },
+            { "sun": "射手座", "moon": "射手座", "tagline": "止まったら死ぬマグロタイプ", "details": ["常にアップデートし続ける人", "哲学, 旅, 学びがガソリン", "過去を振り返る時間はゼロ"], "quote": "自由が最高！" },
             { "sun": "射手座", "moon": "山羊座", "tagline": "野心を持ったチャレンジャー", "details": ["高い目標を確実に仕留める", "自由を求めつつ社会的な地位も狙う", "意外とストイックで自分に厳しい"], "quote": "やるからには上へ" },
-            { "sun": "射手座", "moon": "水瓶座", "tagline": "型破りな未来人", "details": ["常識なんて言葉はこの世にない", "独自の理論でどこまでも行く", "誰とも似ていない自分でいたい"], "quote": "それ、変でいいやん" },
+            { "sun": "射手座", "moon": "水瓶座", "tagline": "型破りな未来人", "details": ["常識なんて言葉はこの世にない", "独自の理論でどこまでも行く", "誰とも似ていない自分でいたい"], "quote": "それ, 変でいいやん" },
             { "sun": "射手座", "moon": "魚座", "tagline": "直感だけで生きるロマンチスト", "details": ["夢の世界と現実を飛び越える", "流れに身を任せて遠くまで行く", "慈愛に満ちた自由人"], "quote": "なんとなく大丈夫" },
-            { "sun": "山羊座", "moon": "牡羊座", "tagline": "最短距離で頂点を狙う人", "details": ["負けず嫌いで野心の塊", "決めたら即座に、かつ確実に動く", "弱音を吐かずに突き進む"], "quote": "勝たなあかん" },
-            { "sun": "山羊座", "moon": "牡牛座", "tagline": "鉄壁の安定志向", "details": ["お金と実績は裏切らないと信じている", "コツコツ貯めて、着実に築く", "変化より継続、形になるものが好き"], "quote": "無駄は省こう" },
-            { "sun": "山羊座", "moon": "双子座", "tagline": "スマートな戦略家", "details": ["情報を集めて効率的に結果を出す", "表向きは軽やかだが、計算は緻密", "役に立たない話には興味がない"], "quote": "で、メリットは何？" },
+            { "sun": "山羊座", "moon": "牡羊座", "tagline": "最短距離で頂点を狙う人", "details": ["負けず嫌いで野心の塊", "決めたら即座に, かつ確実に動く", "弱音を吐かずに突き進む"], "quote": "勝たなあかん" },
+            { "sun": "山羊座", "moon": "牡牛座", "tagline": "鉄壁の安定志向", "details": ["お金と実績は裏切らないと信じている", "コツコツ貯めて, 着実に築く", "変化より継続, 形になるものが好き"], "quote": "無駄は省こう" },
+            { "sun": "山羊座", "moon": "双子座", "tagline": "スマートな戦略家", "details": ["情報を集めて効率的に結果を出す", "表向きは軽やかだが, 計算は緻密", "役に立たない話には興味がない"], "quote": "で, メリットは何？" },
             { "sun": "山羊座", "moon": "蟹座", "tagline": "責任感の強すぎる保護者", "details": ["家族や身内を養うために必死で働く", "厳しいけれど愛がある", "伝統やルールを大切に守る"], "quote": "私が支えなあかん" },
             { "sun": "山羊座", "moon": "獅子座", "tagline": "威厳あるリーダー", "details": ["誰からも認められる地位が欲しい", "プライドを持って完璧に仕事をこなす", "堂々とした振る舞いで人を動かす"], "quote": "やるなら完璧に" },
-            { "sun": "山羊座", "moon": "乙女座", "tagline": "緻密な実務のプロ", "details": ["ミスは許されない、自分に超厳しい", "計画通りに進まないと気が済まない", "1円、1分を大切にするリアリスト"], "quote": "きっちりやろう" },
-            { "sun": "山羊座", "moon": "天秤座", "tagline": "社交的な野心家", "details": ["礼儀正しく、人脈を仕事に活かす", "好感度を保ちつつ、着実に昇進する", "場の空気を読みつつ、主導権を握る"], "quote": "きちんとしておこう" },
-            { "sun": "山羊座", "moon": "蠍座", "tagline": "不言実行の仕事人", "details": ["目標達成まで何年でも待つ", "洞察力が鋭く、敵に回すと一番怖い", "信頼した人との約束は絶対守る"], "quote": "最後に笑うのは私" },
-            { "sun": "山羊座", "moon": "射手座", "tagline": "理想を形にする冒険家", "details": ["夢を語るだけでなく、実現させる力がある", "スケールは大きいが、足元は固めている", "自由を求めつつ、責任は果たす"], "quote": "まずはやってみよ" },
+            { "sun": "山羊座", "moon": "乙女座", "tagline": "緻密な実務のプロ", "details": ["ミスは許されない, 自分に超厳しい", "計画通りに進まないと気が済まない", "1円, 1分を大切にするリアリスト"], "quote": "きっちりやろう" },
+            { "sun": "山羊座", "moon": "天秤座", "tagline": "社交的な野心家", "details": ["礼儀正しく, 人脈を仕事に活かす", "好感度を保ちつつ, 着実に昇進する", "場の空気を読みつつ, 主導権を握る"], "quote": "きちんとしておこう" },
+            { "sun": "山羊座", "moon": "蠍座", "tagline": "不言実行の仕事人", "details": ["目標達成まで何年でも待つ", "洞察力が鋭く, 敵に回すと一番怖い", "信頼した人との約束は絶対守る"], "quote": "最後に笑うのは私" },
+            { "sun": "山羊座", "moon": "射手座", "tagline": "理想を形にする冒険家", "details": ["夢を語るだけでなく, 実現させる力がある", "スケールは大きいが, 足元は固めている", "自由を求めつつ, 責任は果たす"], "quote": "まずはやってみよ" },
             { "sun": "山羊座", "moon": "山羊座", "tagline": "ストイックな努力の天才", "details": ["感情を横に置いて結果を取りに行く", "怠ける自分が許せない", "孤独に耐えて頂点を目指す"], "quote": "結果がすべて" },
-            { "sun": "山羊座", "moon": "水瓶座", "tagline": "ロジカルな革命家", "details": ["古いシステムを合理的に作り直す", "冷徹に見えるが、正義感は強い", "独自のルールで成果を出す"], "quote": "それ、効率悪いわ" },
-            { "sun": "山羊座", "moon": "魚座", "tagline": "繊細な苦労人", "details": ["優しいけれど、やるべきことはやる", "夢を現実に落とし込む努力家", "誰かのために自分を追い込みがち"], "quote": "私がやらなきゃ…" },
-            { "sun": "水瓶座", "moon": "牡羊座", "tagline": "恐れを知らない改革者", "details": ["新しいことに一番に飛びつく", "誰に何を言われても自分の道を爆走", "瞬発力のある天才肌"], "quote": "これ、面白くない？" },
+            { "sun": "山羊座", "moon": "水瓶座", "tagline": "ロジカルな革命家", "details": ["古いシステムを合理的に作り直す", "冷徹に見えるが, 正義感は強い", "独自のルールで成果を出す"], "quote": "それ, 効率悪いわ" },
+            { "sun": "山羊座", "moon": "魚座", "tagline": "繊細な苦労人", "details": ["優しいけれど, やるべきことはやる", "夢を現実に落とし込む努力家", "誰かのために自分を追い込みがち"], "quote": "私がやらなきゃ…" },
+            { "sun": "水瓶座", "moon": "牡羊座", "tagline": "恐れを知らない改革者", "details": ["新しいことに一番に飛びつく", "誰に何を言われても自分の道を爆走", "瞬発力のある天才肌"], "quote": "これ, 面白くない？" },
             { "sun": "水瓶座", "moon": "牡牛座", "tagline": "マイペースなこだわり派", "details": ["独自の美学と価値観が絶対", "流行りよりも「自分にとっての定番」", "頑固さは12星座でもトップクラス"], "quote": "私は私やから" },
-            { "sun": "水瓶座", "moon": "双子座", "tagline": "軽やかな情報発信者", "details": ["常に最新テクノロジーや知識を追求", "広く浅く、フラットな人間関係", "自由な発想で周りを驚かせる"], "quote": "それ、新しいな！" },
-            { "sun": "水瓶座", "moon": "蟹座", "tagline": "一風変わった博愛主義者", "details": ["仲間を大切にするが、ベタベタしない", "独自のルールで家族や友人を守る", "感情よりも理想を優先しがち"], "quote": "みんな自由でええやん" },
-            { "sun": "水瓶座", "moon": "獅子座", "tagline": "唯一無二の表現者", "details": ["目立ちたいが、普通に目立つのは嫌", "圧倒的な個性をブランド化する", "自分のセンスに絶対的な自信"], "quote": "変わってるって褒め言葉" },
-            { "sun": "水瓶座", "moon": "乙女座", "tagline": "ロジカルな分析官", "details": ["社会の無駄を徹底的に批判・改善", "システム作りや効率化の天才", "クールで感情に流されない"], "quote": "それ、合理的じゃない" },
-            { "sun": "水瓶座", "moon": "天秤座", "tagline": "スマートな平和主義者", "details": ["誰に対しても平等でフラットな距離", "センスが良く、どこか浮世離れしている", "依存関係を最も嫌う"], "quote": "ほどよくやろうよ" },
-            { "sun": "水瓶座", "moon": "蠍座", "tagline": "信念を曲げない一匹狼", "details": ["内面に激しい情熱と独自の理論を持つ", "馴れ合いを嫌い、真実だけを求める", "徹底的に突き詰めるオタク気質"], "quote": "群める必要ある？" },
+            { "sun": "水瓶座", "moon": "双子座", "tagline": "軽やかな情報発信者", "details": ["常に最新テクノロジーや知識を追求", "広く浅く, フラットな人間関係", "自由な発想で周りを驚かせる"], "quote": "それ, 新しいな！" },
+            { "sun": "水瓶座", "moon": "蟹座", "tagline": "一風変わった博愛主義者", "details": ["仲間を大切にするが, ベタベタしない", "独自のルールで家族や友人を守る", "感情よりも理想を優先しがち"], "quote": "みんな自由でええやん" },
+            { "sun": "水瓶座", "moon": "獅子座", "tagline": "唯一無二の表現者", "details": ["目立ちたいが, 普通に目立つのは嫌", "圧倒的な個性をブランド化する", "自分のセンスに絶対的な自信"], "quote": "変わってるって褒め言葉" },
+            { "sun": "水瓶座", "moon": "乙女座", "tagline": "ロジカルな分析官", "details": ["社会の無駄を徹底的に批判・改善", "システム作りや効率化の天才", "クールで感情に流されない"], "quote": "それ, 合理的じゃない" },
+            { "sun": "水瓶座", "moon": "天秤座", "tagline": "スマートな平和主義者", "details": ["誰に対しても平等でフラットな距離", "センスが良く, どこか浮世離れしている", "依存関係を最も嫌う"], "quote": "ほどよくやろうよ" },
+            { "sun": "水瓶座", "moon": "蠍座", "tagline": "信念を曲げない一匹狼", "details": ["内面に激しい情熱と独自の理論を持つ", "馴れ合いを嫌い, 真実だけを求める", "徹底的に突き詰めるオタク気質"], "quote": "群める必要ある？" },
             { "sun": "水瓶座", "moon": "射手座", "tagline": "思考が宇宙へ飛ぶ自由人", "details": ["常識や国境すらも軽々と越えていく", "未来のことしか考えていない", "束縛されたら一瞬で消える"], "quote": "もっと自由にいこう" },
-            { "sun": "水瓶座", "moon": "山羊座", "tagline": "現実的な革命家", "details": ["理想を形にするための戦略を持つ", "社会をアップデートしたい野心家", "意外と礼儀正しく、かつドライ"], "quote": "新しい仕組みを作ろう" },
+            { "sun": "水瓶座", "moon": "山羊座", "tagline": "現実的な革命家", "details": ["理想を形にするための戦略を持つ", "社会をアップデートしたい野心家", "意外と礼儀正しく, かつドライ"], "quote": "新しい仕組みを作ろう" },
             { "sun": "水瓶座", "moon": "水瓶座", "tagline": "生粋の宇宙人タイプ", "details": ["自分の世界観が完璧に完成されている", "「普通」が何か理解できない", "100年先を見ている先駆者"], "quote": "それ変やん？" },
-            { "sun": "水瓶座", "moon": "魚座", "tagline": "不思議な魅力の癒し手", "details": ["理想主義で、世界平和を本気で願う", "掴みどころがないミステリアスな人", "直感で動く、感性の人"], "quote": "なんとかなるよ" },
-            { "sun": "魚座", "moon": "牡羊座", "tagline": "直感で動く熱き夢想家", "details": ["根拠はないけど「いける」と信じる", "傷つきやすいが立ち直りも早い", "守りたい人のために豹変する"], "quote": "今、そう思った" },
-            { "sun": "魚座", "moon": "牡牛座", "tagline": "心地よさを愛するロマンチスト", "details": ["綺麗な景色、美味しい食事が癒やし", "おっとりしているが、欲張りな一面も", "自分の好きな世界をコツコツ作る"], "quote": "幸せやな～" },
-            { "sun": "魚座", "moon": "双子座", "tagline": "迷い多きお喋りさん", "details": ["相手の好みに合わせて会話を変える", "空想と現実の話が混ざりがち", "フットワークは軽いが、すぐ疲れる"], "quote": "どうしようかな？" },
-            { "sun": "魚座", "moon": "蟹座", "tagline": "愛情あふれる癒やし手", "details": ["相手の痛みを自分のことのように感じる", "涙もろくて、とにかく優しい", "大切な人のためなら自己犠牲も厭わない"], "quote": "大丈夫、側にいるよ" },
-            { "sun": "魚座", "moon": "獅子座", "tagline": "ドラマチックなヒロイン・ヒーロー", "details": ["映画のような人生に憧れる", "注目されると魔法にかかったように輝く", "繊細なのに、表現はダイナミック"], "quote": "見ててほしい" },
-            { "sun": "魚座", "moon": "乙女座", "tagline": "献身的な完璧主義者", "details": ["誰かの役に立ちたくて細かく動く", "夢見がちだけど、実務もこなせる", "理想と現実のギャップに悩みやすい"], "quote": "ちゃんとしなきゃ…" },
+            { "sun": "水瓶座", "moon": "魚座", "tagline": "不思議な魅力の癒し手", "details": ["理想主義で, 世界平和を本気で願う", "掴みどころがないミステリアスな人", "直感で動く, 感性の人"], "quote": "なんとかなるよ" },
+            { "sun": "魚座", "moon": "牡羊座", "tagline": "直感で動く熱き夢想家", "details": ["根拠はないけど「いける」と信じる", "傷つきやすいが立ち直りも早い", "守りたい人のために豹変する"], "quote": "今, そう思った" },
+            { "sun": "魚座", "moon": "牡牛座", "tagline": "心地よさを愛するロマンチスト", "details": ["綺麗な景色, 美味しい食事が癒やし", "おっとりしているが, 欲張りな一面も", "自分の好きな世界をコツコツ作る"], "quote": "幸せやな～" },
+            { "sun": "魚座", "moon": "双子座", "tagline": "迷い多きお喋りさん", "details": ["相手の好みに合わせて会話を変える", "空想と現実の話が混ざりがち", "フットワークは軽いが, すぐ疲れる"], "quote": "どうしようかな？" },
+            { "sun": "魚座", "moon": "蟹座", "tagline": "愛情あふれる癒し手", "details": ["相手の痛みを自分のことのように感じる", "涙もろくて, とにかく優しい", "大切な人のためなら自己犠牲も厭わない"], "quote": "大丈夫, 側にいるよ" },
+            { "sun": "魚座", "moon": "獅子座", "tagline": "ドラマチックなヒロイン・ヒーロー", "details": ["映画のような人生に憧れる", "注目されると魔法にかかったように輝く", "繊細なのに, 表現はダイナミック"], "quote": "見ててほしい" },
+            { "sun": "魚座", "moon": "乙女座", "tagline": "献身的な完璧主義者", "details": ["誰かの役に立ちたくて細かく動く", "夢見がちだけど, 実務もこなせる", "理想と現実のギャップに悩みやすい"], "quote": "ちゃんとしなきゃ…" },
             { "sun": "魚座", "moon": "天秤座", "tagline": "愛され上手な調整役", "details": ["争いごとは全力で回避する", "周りの空気を吸いすぎて自分を見失う", "いつも誰かと繋がっていたい"], "quote": "みんなが良ければいいよ" },
-            { "sun": "魚座", "moon": "蠍座", "tagline": "底知れぬ愛を秘めた人", "details": ["好きになったら魂レベルで一体化したい", "洞察力が鋭く、言葉以外のメッセージを読む", "執念深さと慈悲深さが同居する"], "quote": "ずっと繋がってる" },
-            { "sun": "魚座", "moon": "射手座", "tagline": "どこまでも行く夢追い人", "details": ["現実逃避がそのまま冒険になる", "精神的な自由を求めて彷徨う", "楽天的なようで、ふと逆行を寂しがる"], "quote": "どこか遠くへ行きたい" },
-            { "sun": "魚座", "moon": "山羊座", "tagline": "夢を形にする努力家", "details": ["ふわふわしているようで、最後は着地する", "責任感が強く、頼まれると断れない", "現実的な厳しさを知っている魚座"], "quote": "やれるだけやるよ" },
-            { "sun": "魚座", "moon": "水瓶座", "tagline": "不思議な魅力の癒し系", "details": ["誰に対しても優しいが、どこか掴めない", "独特な感性で世界を捉えている", "孤独を愛する、自由な癒やし系"], "quote": "みんな違っていいやん" },
-            { "sun": "魚座", "moon": "魚座", "tagline": "境界線のない純粋な魂", "details": ["感情の海を漂う、生粋の感性の人", "霊感や直感が日常レベルで鋭い", "全てを受け入れる圧倒的な受容力"], "quote": "なんとかなるよ" }
+            { "sun": "魚座", "moon": "蠍座", "tagline": "底知れぬ愛を秘めた人", "details": ["好きになったら魂レベルで一体化したい", "洞察力が鋭く, 言葉以外のメッセージを読む", "執念深さと慈悲深さが同居する"], "quote": "ずっと繋がってる" },
+            { "sun": "魚座", "moon": "射手座", "tagline": "どこまでも行く夢追い人", "details": ["現実逃避がそのまま冒険になる", "精神的な自由を求めて彷徨う", "楽天的なようで, ふと逆行を寂しがる"], "quote": "どこか遠くへ行きたい" },
+            { "sun": "魚座", "moon": "山羊座", "tagline": "夢を形にする努力家", "details": ["ふわふわしているようで, 最後は着地する", "責任感が強く, 頼まれると断れない", "現実的な厳しさを知っている魚座"], "quote": "やれるだけやるよ" },
+            { "sun": "魚座", "moon": "水瓶座", "tagline": "不思議な魅力の癒し系", "details": ["誰に対しても優しいが, どこか掴めない", "独特な感性で世界を捉えている", "孤独を愛する, 自由な癒やし系"], "quote": "みんな違いっていいやん" },
+            { "sun": "魚座", "moon": "魚座", "tagline": "境界線のない純粋な魂", "details": ["感情の海を漂う, 生粋の感性の人", "霊感や直感が日常レベルで鋭い", "全てを受け入れる圧倒的な受容力"], "quote": "なんとかなるよ" }
         ];
 
         const zodiacSigns = ["牡羊座", "牡牛座", "双子座", "蟹座", "獅子座", "乙女座", "天秤座", "蠍座", "射手座", "山羊座", "水瓶座", "魚座"];
@@ -359,17 +374,16 @@
         function checkMercury() {
             const now = new Date();
             const ranges = [
-                {s: '2026-02-25', e: '2026-03-20'}, // 2026春
-                {s: '2026-06-29', e: '2026-07-23'}, // 2026夏
-                {s: '2026-10-24', e: '2026-11-13'}, // 2026秋
-                {s: '2027-02-09', e: '2027-03-03'}  // 2027冬
+                {s: '2026-02-25', e: '2026-03-20'}, 
+                {s: '2026-06-29', e: '2026-07-23'}, 
+                {s: '2026-10-24', e: '2026-11-13'}, 
+                {s: '2027-02-09', e: '2027-03-03'}  
             ];
             const isRetro = ranges.some(r => now >= new Date(r.s) && now <= new Date(r.e));
             if(isRetro) document.getElementById('mercury-banner').classList.add('show');
         }
         checkMercury();
 
-        /* --- 占星術ロジック (Ascendant追加) --- */
         function getRisingSign(date) {
             const hour = date.getHours();
             const min = date.getMinutes();
